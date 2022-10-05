@@ -1,7 +1,12 @@
 
-from .views import home
+from .views import home,viewcomplaints,complaintdetails,firupdate
 from django.urls import path
+
+app_name="policeapp"
+
 urlpatterns = [
     path('', home,name="policehome"),
-   
+    path('viewcomplaints/', viewcomplaints,name="viewcomplaints"),
+    path('complaintdetails/', complaintdetails,name="complaintdetails"),
+    path('firupdate/', firupdate,name="firupdate"),
 ] 

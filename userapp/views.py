@@ -1,4 +1,6 @@
+from multiprocessing import context
 from django.shortcuts import render
+from .forms import *
 
 # Create your views here.
 
@@ -13,7 +15,18 @@ def login(request):
 
 
 def registeration(request):
-    return render(request,'people/registeration.html')
+    userform = UserForm(request.POST,request.FILES)
+    personform = PersonForm(request.POST,request.FILES)
+    if request.method =='GET':
+        print("Page Loaded")
+    if request.method =='POST':
+        print("Page Submitted")
+    context={
+        "userform":userform,
+        "personform":personform
+
+    }
+    return render(request,'people/registeration.html',context)
 
 def mycomplaints(request):
     return render(request,'people/mycomplaints.html')

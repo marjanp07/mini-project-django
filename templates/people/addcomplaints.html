@@ -68,8 +68,22 @@
 {% endblock %}
 
 {% block javascript %}
-<script>
-  //   page specific scripts
-  console.log("This will run only in index.html")
-</script>
+    <script src="{% static 'assets/plugins/fancy-file-uploader/jquery.ui.widget.js' %}"></script>
+	<script src="{% static 'assets/plugins/fancy-file-uploader/jquery.fileupload.js' %}"></script>
+	<script src="{% static 'assets/plugins/fancy-file-uploader/jquery.iframe-transport.js' %}"></script>
+	<script src="{% static 'assets/plugins/fancy-file-uploader/jquery.fancy-fileupload.js' %}"></script>
+	<script src="{% static 'assets/plugins/Drag-And-Drop/dist/imageuploadify.min.js' %}"></script>
+	<script>
+		$('#fancy-file-upload').FancyFileUpload({
+			params: {
+				action: 'fileuploader'
+			},
+			maxfilesize: 1000000
+		});
+	</script>
+	<script>
+		$(document).ready(function () {
+			$('#image-uploadify').imageuploadify();
+		})
+	</script>
 {% endblock %}

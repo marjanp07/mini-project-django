@@ -1,6 +1,9 @@
 
 from .views import mycomplaints, home,login,registeration,addcomplaints,casestatustimeline,firstatuscheck,viewfir
 from django.urls import path
+
+app_name="userapp"
+
 urlpatterns = [
     path('', home,name="userhome"),
     path('login/', login,name="login"),
