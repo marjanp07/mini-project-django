@@ -10,6 +10,16 @@ class police_staff_inline(admin.TabularInline):
 
 
 admin.site.register(User)
+admin.site.register(states)
+
+@admin.register(district)
+class districtAdmin(admin.ModelAdmin):
+
+    list_display=['name','state']
+
+
+
+
 
 @admin.register(police_station)
 class policeAdmin(admin.ModelAdmin):

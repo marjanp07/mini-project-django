@@ -1,3 +1,4 @@
+from operator import truediv
 from tabnanny import verbose
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
@@ -31,7 +32,6 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     """"Custom Model"""
     email = models.EmailField(max_length=225, unique=True)
-    name=models.CharField(max_length=225)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
@@ -45,11 +45,31 @@ class User(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name_plural="1.App Users"
 
+class states(models.Model):
+    name=models.CharField(max_length=225)
+
+    def __str__(self):
+        return str(self.name)
+
+    class Meta:
+        verbose_name_plural="2.states"
+
+class district(models.Model):
+    state= models.ForeignKey(states,on_delete=models.PROTECT)
+    name=models.CharField(max_length=225)
+
+    def __str__(self):
+        return str(self.name)
+        
+    class Meta:
+        verbose_name_plural="3.districts"
+
+    
 class police_station(models.Model):
     name = models.CharField(max_length=225)
     place = models.CharField(max_length=225)
-    district = models.CharField(max_length=225)
-    state = models.CharField(max_length=225)
+    district = models.ForeignKey(district,on_delete=models.PROTECT)
+    state = models.ForeignKey(states,on_delete=models.PROTECT)
     phone_number = models.IntegerField()
 
     def __str__(self):
@@ -57,7 +77,7 @@ class police_station(models.Model):
 
 
     class Meta:
-        verbose_name_plural="2.Police station"
+        verbose_name_plural="4.Police station"
 
 
 class police_staff(models.Model):
@@ -65,8 +85,8 @@ class police_staff(models.Model):
     user = models.OneToOneField(User,on_delete=models.PROTECT)
     person_name = models.CharField(max_length=225)
     place = models.CharField(max_length=225)
-    state = models.CharField(max_length=225)
-    district = models.CharField(max_length=225)
+    state = models.ForeignKey(states,on_delete=models.PROTECT)
+    district = models.ForeignKey(district,on_delete=models.PROTECT)
     post = models.CharField(max_length=225) 
     phone_number = models.IntegerField(unique=True)
     photo = models.ImageField(upload_to="people/")
@@ -76,16 +96,16 @@ class police_staff(models.Model):
 
 
     class Meta:
-        verbose_name_plural="3.Police Staff"
+        verbose_name_plural="5.Police Staff"
     
 
 class peoples(models.Model):
-    user=models.OneToOneField(User,on_delete=models.PROTECT)
+    user=models.OneToOneField(User,on_delete=models.PROTECT,null=True,blank=True)
     police_station_range= models.ForeignKey(police_station,on_delete=models.PROTECT)
     person_name = models.CharField(max_length=225)
     place = models.CharField(max_length=225)
-    state = models.CharField(max_length=225)
-    district = models.CharField(max_length=225)
+    state = models.ForeignKey(states,on_delete=models.PROTECT)
+    district = models.ForeignKey(district,on_delete=models.PROTECT)
     post = models.CharField(max_length=225) 
     adhar_number = models.IntegerField(unique=True)
     phone_number = models.IntegerField(unique=True)
@@ -95,7 +115,7 @@ class peoples(models.Model):
         return str(self.user)
 
     class Meta:
-        verbose_name_plural="4.Peoples"
+        verbose_name_plural="6.Peoples"
 
 
 class complaints(models.Model):
@@ -110,7 +130,7 @@ class complaints(models.Model):
         return str(self.user)
 
     class Meta:
-        verbose_name_plural="5.Complaints"
+        verbose_name_plural="7.Complaints"
 
 
 
@@ -125,7 +145,7 @@ class complaint_updates(models.Model):
         return str(self.complaint)
 
     class Meta:
-        verbose_name_plural="6.Complaint Updates"
+        verbose_name_plural="9.Complaint Updates"
 
 
 class fir_details(models.Model):
@@ -137,7 +157,7 @@ class fir_details(models.Model):
         return str(self.complaint)
 
     class Meta:
-        verbose_name_plural="7.Fir Status"
+        verbose_name_plural="91.Fir Status"
 
 
 class fir_status_report(models.Model): 
@@ -150,7 +170,7 @@ class fir_status_report(models.Model):
         return str(self.fir)
 
     class Meta:
-        verbose_name_plural="8.Fir Status Report"
+        verbose_name_plural="92.Fir Status Report"
     
 
 
@@ -162,5 +182,5 @@ class news_feed(models.Model):
         return str(self.date)
 
     class Meta:
-        verbose_name_plural="9.News Feed"
+        verbose_name_plural="93.News Feed"
 

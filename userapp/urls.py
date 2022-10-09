@@ -1,11 +1,12 @@
 
-from .views import mycomplaints, home,login,registeration,addcomplaints,casestatustimeline,firstatuscheck,viewfir
+from .views import mycomplaints,index, home,login,registeration,addcomplaints,casestatustimeline,firstatuscheck,viewfir
 from django.urls import path
 
 app_name="userapp"
 
 urlpatterns = [
-    path('', home,name="userhome"),
+    path('', index,name="index"),
+    path('home/', home,name="userhome"),
     path('login/', login,name="login"),
     path('registeration/', registeration,name="registeration"),
     path('mycomplaints/', mycomplaints,name="mycomplaints"),

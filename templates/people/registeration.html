@@ -63,11 +63,9 @@
 										</p>
 									</div>
 									
-									<div class="login-separater text-center mb-4"> <span>OR SIGN UP WITH EMAIL</span>
-										<hr/>
-									</div>
+									
 									<div class="form-body">
-										<form method="post" class="row g-3">
+										<form method="post" class="row g-3" enctype="multipart/form-data">
 											{% csrf_token %}
 											<div class="col-12">
 												<label for="inputEmailAddress" class="form-label">Email Address</label>
@@ -82,71 +80,75 @@
 
 											<div class="col-sm-12">
 												<label for="inputFirstName" class="form-label">Name</label>
-												{{userform.name}}
+												{{personform.person_name}}
 											</div>
 											
 
 											<div class="col-sm-6">
 												<label for="inputFirstName" class="form-label">Place</label>
-												<input type="email" class="form-control" id="inputFirstName" placeholder="Place">
+												{{personform.place}}
 											</div>
 											
 											
 											<div class="col-sm-6">
 												<label for="inputSelectCountry" class="form-label">State</label>
-												<select class="form-select" id="inputSelectCountry" aria-label="Default select example">
-													<option selected>Kerala</option>
-													<option value="1">Tamilnadu</option>
-													<option value="2">Karnataka</option>
-													<option value="3">Goa</option>
-												</select>
+												{{personform.state}}
 											</div>
 
 											<div class="col-sm-6">
 												<label for="inputSelectCountry" class="form-label">District</label>
-												<select class="form-select" id="inputSelectCountry" aria-label="Default select example">
-													<option selected>1</option>
-													<option value="1">2</option>
-													<option value="2">3</option>
-													<option value="3">4</option>
-												</select>
+												{{personform.district}}
 											</div>
 											
 											<div class="col-sm-6">
 												<label for="inputFirstName" class="form-label">Post</label>
-												<input type="email" class="form-control" id="inputFirstName" placeholder="post">
+												{{personform.post}}
 											</div>
 
 											<div class="col-sm-6">
 												<label for="inputFirstName" class="form-label">Adhar number</label>
-												<input type="email" class="form-control" id="inputFirstName" placeholder="Adhar number">
+												{{personform.adhar_number}}
 											</div>
 
 											<div class="col-sm-6">
 												<label for="inputFirstName" class="form-label">Phone number</label>
-												<input type="email" class="form-control" id="inputFirstName" placeholder="Phone number">
+												{{personform.phone_number}}
 											</div>
 											
 											<div class="col-sm-6">
 												<label for="inputFirstName" class="form-label">Police station range</label>
-												<input type="email" class="form-control" id="inputFirstName" placeholder="Police station range">
+												{{personform.police_station_range}}
 											</div>
-											
 
 
-
-											
-											<div class="col-12">
-												<div class="form-check form-switch">
-													<input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
-													<label class="form-check-label" for="flexSwitchCheckChecked">I read and agree to Terms & Conditions</label>
+											<div class="row">
+												<div class="col-sm-9">
+													<label for="UploadImage" class="form-label">Upload image</label>
+													{{personform.photo}}
 												</div>
 											</div>
+											
+
+
+
+											
+											
 											<div class="col-12">
 												<div class="d-grid">
 													<button type="submit" class="btn btn-primary"><i class='bx bx-user'></i>Sign up</button>
 												</div>
 											</div>
+											{% if errormessage %}
+											<div class="row">
+												<div class="col-sm-9">
+													<label  for="UploadImage" class="form-labe text-danger text-center">{{errormessage}}</label>
+													
+												</div>
+											</div>
+											{% endif %}
+											
+
+
 										</form>
 									</div>
 								</div>

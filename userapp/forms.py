@@ -10,7 +10,6 @@ class UserForm(forms.ModelForm):
         fields = '__all__'
         widgets = {
             'email': TextInput(attrs={'class': 'form-control','type':'email', 'placeholder': 'example@user.com','id':'email','name':'email'}),
-            'name': TextInput(attrs={'class': 'form-control', 'placeholder': 'name','id':'name','name':'name'}),
             'password': TextInput(attrs={'class': 'form-control','type':'password', 'placeholder': '****************','id':'password','name':'password'})
         }
 
@@ -21,11 +20,11 @@ class PersonForm(forms.ModelForm):
         widgets = {
             'person_name': TextInput(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'person_name','name':'person_name'}),
             'place': TextInput(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'place','name':'place'}),
-            'state': TextInput(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'state','name':'state'}),
-            'district': TextInput(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'district','name':'district'}),
+            'state': Select(attrs={'class': 'form-select', 'placeholder': 'example@user.com','id':'state','name':'state'}),
+            'district': Select(attrs={'class': 'form-select', 'placeholder': 'example@user.com','id':'district','name':'district'}),
+            'police_station_range': Select(attrs={'class': 'form-select', 'placeholder': 'example@user.com','id':'district','name':'district'}),
             'post': TextInput(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'post','name':'post'}),
             'adhar_number': TextInput(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'adhar_number','name':'adhar_number'}),
             'phone_number': TextInput(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'phone_number','name':'phone_number'}),
-            'password': TextInput(attrs={'class': 'form-control','type':'password', 'placeholder': 'example@user.com','id':'password','name':'password'}),
             'photo': FileInput(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'photo','name':'photo'})
         }
