@@ -1,4 +1,3 @@
-from multiprocessing import context
 from django.shortcuts import render
 from .forms import *
 
@@ -20,7 +19,9 @@ def registeration(request):
     if request.method =='GET':
         print("Page Loaded")
     if request.method =='POST':
-        print("Page Submitted")
+        if userform.is_valid() and personform.is_valid():
+            user=User.objects.create_user(request.POST.get('email'),request.POST.get('password'),name=request.POST.get('name'))
+            
     context={
         "userform":userform,
         "personform":personform
