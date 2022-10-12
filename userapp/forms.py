@@ -28,3 +28,16 @@ class PersonForm(forms.ModelForm):
             'phone_number': TextInput(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'phone_number','name':'phone_number'}),
             'photo': FileInput(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'photo','name':'photo'})
         }
+
+
+
+class complaintForm(forms.ModelForm):
+    class Meta:
+        model = complaints
+        fields = '__all__'
+        widgets = {
+            'user': Select(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'person_name','name':'person_name'}),
+            'police_station': Select(attrs={'class': 'form-select', 'placeholder': 'example@user.com','id':'state','name':'state'}),
+            'complaint_discription': Textarea(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'post','name':'post'}),
+            'document_feild': FileInput(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'photo','name':'photo'})
+        }

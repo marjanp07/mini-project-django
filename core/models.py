@@ -1,7 +1,7 @@
 from operator import truediv
 from tabnanny import verbose
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
-
+from versatileimagefield.fields import VersatileImageField,PPOIField
 from django.db import models
 
 # Create your models here.
@@ -89,7 +89,8 @@ class police_staff(models.Model):
     district = models.ForeignKey(district,on_delete=models.PROTECT)
     post = models.CharField(max_length=225) 
     phone_number = models.IntegerField(unique=True)
-    photo = models.ImageField(upload_to="people/")
+    image_ppoi=PPOIField()
+    photo = VersatileImageField(upload_to="police/",ppoi_field='image_ppoi')
 
     def __str__(self):
         return str(self.user)
@@ -109,7 +110,8 @@ class peoples(models.Model):
     post = models.CharField(max_length=225) 
     adhar_number = models.IntegerField(unique=True)
     phone_number = models.IntegerField(unique=True)
-    photo = models.ImageField(upload_to="people/")
+    image_ppoi=PPOIField()
+    photo = VersatileImageField(upload_to="people/",ppoi_field='image_ppoi')
 
     def __str__(self):
         return str(self.user)
@@ -175,8 +177,12 @@ class fir_status_report(models.Model):
 
 
 class news_feed(models.Model):
-    date = models.DateTimeField(auto_now=True) 
+    date = models.DateTimeField() 
+    heading =models.CharField(max_length=225)
+    district = models.ForeignKey(district,on_delete=models.PROTECT)
     news = models.TextField()
+    image_ppoi=PPOIField()
+    photo = VersatileImageField(upload_to="news/",ppoi_field='image_ppoi')
 
     def __str__(self):
         return str(self.date)

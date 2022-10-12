@@ -1,18 +1,36 @@
+
 from multiprocessing import context
 from django.shortcuts import redirect, render
 from .forms import *
+from core.models import *
 from django.contrib.auth import login as auth_login,authenticate
-
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
 def index(request):
-    
-    return render(request,'people/index.html')
 
-def home(request):
+    news_feed_list = news_feed.objects.all()
+
+    context={
+        "news_feed_list":news_feed_list
+    }
     
-    return render(request,'people/home.html')
+    return render(request,'people/index.html',context)
+
+
+@login_required(login_url="userapp:login")
+def home(request):
+    print(request.user)
+    person_details=peoples.objects.get(user=request.user)
+    print(person_details.district)
+    news_feed_list = news_feed.objects.filter(district=person_details.district)
+
+    context={
+        "news_feed_list":news_feed_list
+    }
+    
+    return render(request,'people/home.html',context)
 
 
 def login(request):
@@ -59,7 +77,15 @@ def mycomplaints(request):
     return render(request,'people/mycomplaints.html')
 
 def addcomplaints(request):
-    return render(request,'people/addcomplaints.html')
+    complaintform = complaintForm(request.POST,request.FILES)
+    if request.method =='POST':
+        if complaintform.is_valid():
+            complaintform.save()
+
+    context={
+        "complaintform":complaintform
+    }
+    return render(request,'people/addcomplaints.html',context)
 
 
 def casestatustimeline(request):
