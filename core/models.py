@@ -1,4 +1,5 @@
 from operator import truediv
+from secrets import choice
 from tabnanny import verbose
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from versatileimagefield.fields import VersatileImageField,PPOIField
@@ -138,10 +139,12 @@ class complaints(models.Model):
 
 
 class complaint_updates(models.Model): 
+    STATUS_CHOICE = (('OPEN','OPEN'),('PENDING','PENDING'),('FIR CREATED','FIR CREATED'),('COLSED','COLSED'))
+
     complaint = models.ForeignKey(complaints,on_delete=models.PROTECT)
     date = models.DateTimeField(auto_now=True)
     comment =models.CharField(max_length=225)
-    status=models.CharField(max_length=225)
+    status=models.CharField(max_length=225,choices=STATUS_CHOICE)
     commented_by=models.ForeignKey(User,on_delete=models.PROTECT)
 
     def __str__(self):

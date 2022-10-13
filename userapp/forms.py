@@ -41,3 +41,35 @@ class complaintForm(forms.ModelForm):
             'complaint_discription': Textarea(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'post','name':'post'}),
             'document_feild': FileInput(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'photo','name':'photo'})
         }
+
+
+class complaintupdateForm(forms.ModelForm):
+    class Meta:
+        model = complaint_updates
+        fields = ('comment','status')
+        widgets = {
+            # 'user': Select(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'person_name','name':'person_name'}),
+            'status': Select(attrs={'class': 'form-select', 'placeholder': 'example@user.com','id':'state','name':'state'}),
+            'comment': Textarea(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'post','name':'post'}),
+        }
+
+
+class firdetailsForm(forms.ModelForm):
+    class Meta:
+        model = fir_details
+        fields = ('complaint','fir_number')
+        widgets = {
+            # 'user': Select(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'person_name','name':'person_name'}),
+            'status': Select(attrs={'class': 'form-select', 'placeholder': 'example@user.com','id':'state','name':'state'}),
+            'comment': Textarea(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'post','name':'post'}),
+        }        
+
+class firstatusForm(forms.ModelForm):
+    class Meta:
+        model = fir_status_report
+        fields = ('fir','current_status')
+        widgets = {
+            # 'user': Select(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'person_name','name':'person_name'}),
+            'status': Select(attrs={'class': 'form-select', 'placeholder': 'example@user.com','id':'state','name':'state'}),
+            'comment': Textarea(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'post','name':'post'}),
+        }                

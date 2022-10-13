@@ -1,5 +1,4 @@
 
-from multiprocessing import context
 from django.shortcuts import redirect, render
 from .forms import *
 from core.models import *
@@ -86,6 +85,8 @@ def mycomplaints(request):
     }
     return render(request,'people/mycomplaints.html',context)
 
+
+@login_required(login_url="userapp:login")
 def addcomplaints(request):
     complaintform = complaintForm(request.POST,request.FILES)
     if request.method =='POST':
@@ -99,9 +100,13 @@ def addcomplaints(request):
     }
     return render(request,'people/addcomplaints.html',context)
 
-
+@login_required(login_url="userapp:login")
 def casestatustimeline(request):
-    return render(request,'people/casestatustimeline.html')
+    statusform = complaintupdateForm(request.POST,request.FILES)
+    context={
+        "statusform":statusform
+    }
+    return render(request,'people/casestatustimeline.html',context)
 
 
 def firstatuscheck(request):
