@@ -21,10 +21,12 @@ def index(request):
 
 @login_required(login_url="userapp:login")
 def home(request):
+    news_feed_list=[]
     print(request.user)
-    person_details=peoples.objects.get(user=request.user)
-    print(person_details.district)
-    news_feed_list = news_feed.objects.filter(district=person_details.district)
+    if peoples.objects.filter(user=request.user).exists():
+        person_details=peoples.objects.get(user=request.user)
+        print(person_details.district)
+        news_feed_list = news_feed.objects.filter(district=person_details.district)
 
     context={
         "news_feed_list":news_feed_list
@@ -69,18 +71,28 @@ def registeration(request):
             person.user=user
             person.save()
         else :
-             context["errormessage"]= "User Already Registered"
+            print(userform.errors)
+            print(personform.errors)
+            context["errormessage"]= "User Already Registered"
    
     return render(request,'people/registeration.html',context)
 
+@login_required(login_url="userapp:login")
 def mycomplaints(request):
-    return render(request,'people/mycomplaints.html')
+    
+    complaints_list = complaints.objects.filter(user=request.user)
+    context={
+        'complaints_list':complaints_list
+    }
+    return render(request,'people/mycomplaints.html',context)
 
 def addcomplaints(request):
     complaintform = complaintForm(request.POST,request.FILES)
     if request.method =='POST':
         if complaintform.is_valid():
-            complaintform.save()
+            complaint=complaintform.save(commit=False)
+            complaint.user=request.user
+            complaint.save()
 
     context={
         "complaintform":complaintform

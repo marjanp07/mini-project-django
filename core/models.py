@@ -110,8 +110,8 @@ class peoples(models.Model):
     post = models.CharField(max_length=225) 
     adhar_number = models.IntegerField(unique=True)
     phone_number = models.IntegerField(unique=True)
-    image_ppoi=PPOIField()
-    photo = VersatileImageField(upload_to="people/",ppoi_field='image_ppoi')
+    image_ppoi=PPOIField('Image PPOI')
+    photo = VersatileImageField(upload_to="people/",blank=True,null=True)
 
     def __str__(self):
         return str(self.user)
@@ -121,13 +121,14 @@ class peoples(models.Model):
 
 
 class complaints(models.Model):
-    user = models.ForeignKey(peoples,on_delete=models.PROTECT)
+    user = models.ForeignKey(User,on_delete=models.PROTECT)
     police_station = models.ForeignKey(police_station,on_delete=models.PROTECT)
     complaint_discription = models.CharField(max_length=225)
     document_feild = models.FileField(upload_to="complaints/")
     date = models.DateTimeField(auto_now=True)
 
-
+    def get_latest_update(self):
+        return complaint_updates.objects.filter(complaint=self).last()
     def __str__(self):
         return str(self.user)
 

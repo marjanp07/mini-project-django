@@ -1,6 +1,6 @@
 from django import forms
 from core.models import *
-from django.forms.widgets import SelectMultiple,FileInput, TextInput, Textarea, EmailInput, CheckboxInput,URLInput, Select, NumberInput, RadioSelect, FileInput,TimeInput
+from django.forms.widgets import SelectMultiple, TextInput, Textarea, EmailInput, CheckboxInput,URLInput, Select, NumberInput, RadioSelect, FileInput,TimeInput
 
 # <input type="email" class="form-control" id="inputEmailAddress" placeholder="example@user.com">
 # <select class="form-select" id="inputSelectCountry" aria-label="Default select example">
@@ -34,9 +34,9 @@ class PersonForm(forms.ModelForm):
 class complaintForm(forms.ModelForm):
     class Meta:
         model = complaints
-        fields = '__all__'
+        fields = ('police_station','document_feild','complaint_discription')
         widgets = {
-            'user': Select(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'person_name','name':'person_name'}),
+            # 'user': Select(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'person_name','name':'person_name'}),
             'police_station': Select(attrs={'class': 'form-select', 'placeholder': 'example@user.com','id':'state','name':'state'}),
             'complaint_discription': Textarea(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'post','name':'post'}),
             'document_feild': FileInput(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'photo','name':'photo'})
