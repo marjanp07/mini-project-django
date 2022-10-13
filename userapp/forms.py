@@ -46,12 +46,23 @@ class complaintForm(forms.ModelForm):
 class complaintupdateForm(forms.ModelForm):
     class Meta:
         model = complaint_updates
+        fields = ('comment',)
+        widgets = {
+            # 'user': Select(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'person_name','name':'person_name'}),
+            # 'status': Select(attrs={'class': 'form-select', 'placeholder': 'example@user.com','id':'state','name':'state'}),
+            'comment': Textarea(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'post','name':'post'}),
+        }
+
+class policecomplaintupdateForm(forms.ModelForm):
+    class Meta:
+        model = complaint_updates
         fields = ('comment','status')
         widgets = {
             # 'user': Select(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'person_name','name':'person_name'}),
             'status': Select(attrs={'class': 'form-select', 'placeholder': 'example@user.com','id':'state','name':'state'}),
             'comment': Textarea(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'post','name':'post'}),
         }
+
 
 
 class firdetailsForm(forms.ModelForm):

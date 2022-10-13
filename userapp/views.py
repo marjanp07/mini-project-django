@@ -101,10 +101,35 @@ def addcomplaints(request):
     return render(request,'people/addcomplaints.html',context)
 
 @login_required(login_url="userapp:login")
-def casestatustimeline(request):
-    statusform = complaintupdateForm(request.POST,request.FILES)
+def casestatustimeline(request,id):
+    police_status_form= policecomplaintupdateForm(request.POST,request.FILES)
+    user_statusform = complaintupdateForm(request.POST,request.FILES)
+    complaint = complaints.objects.get(id=id)
+    cstatuses = complaint_updates.objects.filter(complaint=complaint).order_by('date')
+    print(request.user)
+    if request.user.is_staff:
+        statusform=police_status_form
+    else:
+        statusform=user_statusform
+    if request.method =='POST':
+        if request.user.is_staff and statusform.is_valid():
+             cstatus=statusform.save(commit=False)
+             cstatus.commented_by=request.user
+             cstatus.complaint=complaint
+             cstatus.save()
+        elif statusform.is_valid():
+            cstatus=statusform.save(commit=False)
+            cstatus.commented_by=request.user
+            cstatus.complaint=complaint
+            cstatus.status='OPEN'
+            cstatus.save()
+
+
     context={
-        "statusform":statusform
+        "is_police":request.user.is_staff,
+        "statusform":statusform,
+        "cstatuses":cstatuses,
+        "complaint":complaint
     }
     return render(request,'people/casestatustimeline.html',context)
 

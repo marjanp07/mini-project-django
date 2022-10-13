@@ -22,19 +22,61 @@
             </div>
             <div class="ms-auto">
                 <div class="btn-group">
-                    <a href="{% url 'userapp:addcomplaints' %}"><button type="button" class="btn btn-primary">Raise Complaint</button></a>
-                    
+                    <a href="{% url 'userapp:addcomplaints' %}"><button type="button" class="btn btn-primary">Raise
+                            Complaint</button></a>
+
                 </div>
             </div>
         </div>
+
+        
+
+        <div class="row">
+            <div class="col-12 col-lg-9 mx-auto">
+                <div class="text-center">
+                    <h5 class="mb-0 text-uppercase">Frequently asked questions (FAQ<small
+                            class="text-lowercase">s</small>)</h5>
+                    <hr />
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="accordion" id="accordionExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        {{complaint.user}} <span
+                                            style="font-size: 14px; color: black;">&nbsp;&nbsp;&nbsp;&nbsp;-
+                                            {{complaint.date}}</span>
+                                    </button>
+                                </h2>
+
+                                <div id="collapseOne" class="accordion-collapse collapse show"
+                                    aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <p>{{complaint.complaint_discription}}</p>
+                                        <iframe src="/media/{{complaint.document_feild}}" width="100%" height="300px"></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <!--end breadcrumb-->
         <div class="">
+            
             <div class="">
-                
+
                 <!--container-->
                 <hr>
                 <div class="container py-2">
                     <h2 class="font-weight-light text-center text-muted py-3">Complaint Updates</h2>
+
+                    {% for cstatus in cstatuses %}
+                    {% if cstatus.commented_by == request.user %}
                     <!-- My Comment  -->
                     <div class="row g-0">
                         <div class="col-sm">
@@ -47,8 +89,8 @@
                                 <div class="col">&nbsp;</div>
                             </div>
                             <h5 class="m-2">
-                            <span class="badge rounded-pill bg-light border">&nbsp;</span>
-                        </h5>
+                                <span class="badge rounded-pill bg-light border">&nbsp;</span>
+                            </h5>
                             <div class="row h-50">
                                 <div class="col border-end">&nbsp;</div>
                                 <div class="col">&nbsp;</div>
@@ -58,22 +100,24 @@
                         <div class="col-sm py-2">
                             <div class="card radius-15">
                                 <div class="card-body">
-                                    <div class="float-end text-muted small">Jan 9th 2019 7:00 AM</div>
-                                    <h4 class="card-title text-muted">Day 1 Orientation</h4>
-                                    <p class="card-text">Welcome to the campus, introduction and get started with the tour.</p>
+                                    <div class="float-end text-muted small">{{cstatus.date}}</div>
+                                    <h4 class="card-title text-muted">{{cstatus.status}}</h4>
+                                    <p class="card-text">{{cstatus.comment}}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <!--/row-->
+                    {% else %}
                     <!-- Their comment -->
                     <div class="row g-0">
                         <div class="col-sm py-2">
                             <div class="card radius-15">
                                 <div class="card-body">
-                                    <div class="float-end text-muted small">Jan 12th 2019 11:30 AM</div>
-                                    <h4 class="card-title">Day 4 Wrap-up</h4>
-                                    <p>Join us for lunch in Bootsy's cafe across from the Campus Center.</p>
+                                    <div class="float-end text-muted small">{{cstatus.date}}</div>
+                                    <h4 class="card-title">{{cstatus.status}}</h4>
+                                    <p>{{cstatus.comment}}</p>
                                 </div>
                             </div>
                         </div>
@@ -94,7 +138,10 @@
                             <!--spacer-->
                         </div>
                     </div>
+
                     <!--/row-->
+                    {% endif %}
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -102,17 +149,19 @@
         <div class="row p-2">
             <form method="post" class="row g-3" enctype="multipart/form-data">
                 {% csrf_token %}
-    
+
                 <div class="row">
-                    
+
                     <div class="col-sm-12">
                         <label for="inputFirstName" class="form-label">Comment</label>
                         {{statusform.comment}}
                     </div>
+                    {% if statusform.status %}
                     <div class="col-sm-12">
                         <label for="inputFirstName" class="form-label">Status</label>
                         {{statusform.status}}
                     </div>
+                    {% endif %}
                 </div>
                 <div class="col-12">
                     <div class="d-grid">
@@ -128,7 +177,7 @@
 
 {% block javascript %}
 <script>
-  //   page specific scripts
-  console.log("This will run only in index.html")
+    //   page specific scripts
+    console.log("This will run only in index.html")
 </script>
 {% endblock %}

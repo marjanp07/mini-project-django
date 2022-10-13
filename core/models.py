@@ -131,7 +131,8 @@ class complaints(models.Model):
     def get_latest_update(self):
         return complaint_updates.objects.filter(complaint=self).last()
     def __str__(self):
-        return str(self.user)
+        cid='100'+str(self.id)
+        return str(cid)
 
     class Meta:
         verbose_name_plural="7.Complaints"

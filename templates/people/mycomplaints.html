@@ -52,13 +52,13 @@
               <tbody>
                 {% for complaint in complaints_list %}
                 <tr>
-                  <th scope="row">{{loop.counter}}</th>
+                  <th scope="row">></th>
                   <td>{{complaint.date}}</td>
                   <td>{{complaint.police_station}}</td>
                   {% if complaint.get_latest_update.status %}
-                  <td>{{complaint.get_latest_update.status}}</td>
+                  <td><a href="{% url 'userapp:casestatustimeline' complaint.id %}">{{complaint.get_latest_update.status}}</a></td>
                   {% else %}
-                  <td>Open</td>
+                  <td><a href="{% url 'userapp:casestatustimeline' complaint.id %}">Open</a></td>
                   {% endif %}
                   
                 </tr>
