@@ -61,7 +61,7 @@
 				{% else %}
 				<li>
 					<a href="javascript:;" class="has-arrow">
-						<div class="parent-icon"><i class='bx bxs-like bx-spin'></i>
+						<div class="parent-icon"><i class='bx bxs-note'></i>
 						</div>
 						<div class="menu-title">Complaints</div>
 					</a>
@@ -75,7 +75,7 @@
 				
 				<li>
 					<a href="javascript:;" class="has-arrow">
-						<div class="parent-icon"><i class='bx bx-cart'></i>
+						<div class="parent-icon"><i class='bx bx-search'></i>
 						</div>
 						<div class="menu-title">FIRs</div>
 					</a>
@@ -420,10 +420,10 @@
 					</div>
 					<div class="user-box dropdown">
 						<a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							<img src="{% static 'assets/images/avatars/avatar-2.png' %}"  class="user-img" alt="user avatar">
+							<img src="{{user_details.photo.url}}"  class="user-img" alt="user avatar">
 							<div class="user-info ps-3">
-								<p class="user-name mb-0">Pauline Seitz</p>
-								<p class="designattion mb-0">Web Designer</p>
+								<p class="user-name mb-0">{{user_details.person_name}}</p>
+								<p class="designattion mb-0">{{user_details.district}}</p>
 							</div>
 						</a>
 						<ul class="dropdown-menu dropdown-menu-end">
@@ -440,7 +440,7 @@
 							<li>
 								<div class="dropdown-divider mb-0"></div>
 							</li>
-							<li><a class="dropdown-item" href="javascript:;"><i class='bx bx-log-out-circle'></i><span>Logout</span></a>
+							<li><a class="dropdown-item" href="{% url 'userapp:logout' %}"><i class='bx bx-log-out-circle'></i><span>Logout</span></a>
 							</li>
 						</ul>
 					</div>

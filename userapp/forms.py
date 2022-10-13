@@ -38,7 +38,7 @@ class complaintForm(forms.ModelForm):
         widgets = {
             # 'user': Select(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'person_name','name':'person_name'}),
             'police_station': Select(attrs={'class': 'form-select', 'placeholder': 'example@user.com','id':'state','name':'state'}),
-            'complaint_discription': Textarea(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'post','name':'post'}),
+            'complaint_discription': Textarea(attrs={'class': 'form-control', 'placeholder': 'Describe complaint','id':'post','name':'post'}),
             'document_feild': FileInput(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'photo','name':'photo'})
         }
 

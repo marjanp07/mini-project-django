@@ -2,13 +2,15 @@
 from django.shortcuts import redirect, render
 from .forms import *
 from core.models import *
-from django.contrib.auth import login as auth_login,authenticate
+from django.contrib.auth import login as auth_login,authenticate,logout
 from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 
 
 def index(request):
-
+    if request.user:
+        return redirect('userapp:userhome')
     news_feed_list = news_feed.objects.all()
 
     context={
@@ -21,14 +23,19 @@ def index(request):
 @login_required(login_url="userapp:login")
 def home(request):
     news_feed_list=[]
-    print(request.user)
-    if peoples.objects.filter(user=request.user).exists():
+    user_details=None
+
+    if request.user.is_staff:
+        user_details=police_staff.objects.get(user=request.user)
+    else:
         person_details=peoples.objects.get(user=request.user)
+        user_details=peoples.objects.get(user=request.user)
         print(person_details.district)
         news_feed_list = news_feed.objects.filter(district=person_details.district)
-
+    
     context={
-        "news_feed_list":news_feed_list
+        "news_feed_list":news_feed_list,
+        "user_details":user_details
     }
     
     return render(request,'people/home.html',context)
@@ -78,16 +85,26 @@ def registeration(request):
 
 @login_required(login_url="userapp:login")
 def mycomplaints(request):
+    if request.user.is_staff:
+        user_details=police_staff.objects.get(user=request.user)
+    else:
+        user_details=peoples.objects.get(user=request.user)
     
     complaints_list = complaints.objects.filter(user=request.user)
     context={
-        'complaints_list':complaints_list
+        'complaints_list':complaints_list,
+        "user_details":user_details
     }
     return render(request,'people/mycomplaints.html',context)
 
 
 @login_required(login_url="userapp:login")
 def addcomplaints(request):
+    if request.user.is_staff:
+        user_details=police_staff.objects.get(user=request.user)
+    else:
+        user_details=peoples.objects.get(user=request.user)
+    
     complaintform = complaintForm(request.POST,request.FILES)
     if request.method =='POST':
         if complaintform.is_valid():
@@ -96,7 +113,8 @@ def addcomplaints(request):
             complaint.save()
 
     context={
-        "complaintform":complaintform
+        "complaintform":complaintform,
+        "user_details":user_details
     }
     return render(request,'people/addcomplaints.html',context)
 
@@ -124,25 +142,53 @@ def casestatustimeline(request,id):
             cstatus.status='OPEN'
             cstatus.save()
 
+    if request.user.is_staff:
+        user_details=police_staff.objects.get(user=request.user)
+    else:
+        user_details=peoples.objects.get(user=request.user)
+    
 
     context={
         "is_police":request.user.is_staff,
         "statusform":statusform,
         "cstatuses":cstatuses,
-        "complaint":complaint
+        "complaint":complaint,
+        "user_details":user_details
     }
     return render(request,'people/casestatustimeline.html',context)
 
-
+@login_required(login_url="userapp:login")
 def firstatuscheck(request):
-    return render(request,'people/firstatuscheck.html')
+
+    if request.user.is_staff:
+        user_details=police_staff.objects.get(user=request.user)
+    else:
+        user_details=peoples.objects.get(user=request.user)
+    
+    context={
+        "user_details":user_details
+    }
+    return render(request,'people/firstatuscheck.html',context)
 
 
-
+@login_required(login_url="userapp:login")
 def viewfir(request):
-    return render(request,'people/viewfir.html')                    
+    if request.user.is_staff:
+        user_details=police_staff.objects.get(user=request.user)
+    else:
+        user_details=peoples.objects.get(user=request.user)
+    
+    context={
+        "user_details":user_details
+    }
+    return render(request,'people/viewfir.html',context) 
 
 
+                   
+
+def logout_view(request):
+    logout(request)
+    return redirect('userapp:userhome')
 
 
 
