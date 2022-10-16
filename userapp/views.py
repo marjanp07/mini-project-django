@@ -74,7 +74,7 @@ def registeration(request):
         if userform.is_valid() and personform.is_valid():
             # Validation required
             
-            user=User.objects.create_user(request.POST.get('email'),request.POST.get('password'))
+            user=User.objects.create_user(request.POST.get('username'),request.POST.get('password'))
             person=personform.save(commit=False)
             person.user=user
             person.save()

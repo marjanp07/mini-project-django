@@ -165,11 +165,80 @@
                 </div>
                 <div class="col-12">
                     <div class="d-grid">
-                        <button type="submit" class="btn btn-primary"><i class='bx bx-user'></i>Send</button>
+                        <button type="submit" name="add-comment" class="btn btn-primary"><i class='bx bx-comment'></i>Send</button>
                     </div>
                 </div>
             </form>
         </div>
+       
+
+
+        {% if fir_detail %}
+        <h1>Go To FIR</h1>
+        {% else %}
+        {% if request.user.is_staff %}
+        <div class="row p-2">
+            <form method="post" class="row g-3" enctype="multipart/form-data">
+              {% csrf_token %}
+      
+              <div class="row">
+                <div class="col-sm-12 d-none">
+                  <label for="inputFirstName" class="form-label">REJECT FIR</label>
+                  {{firRejectForm.status}}
+                </div>
+      
+                <button type="submit" name="fir-form" class="btn btn-danger">
+                  <i class="bx bx-note"></i>REJECT CASE
+                </button>
+      
+              </div>
+            </form>
+          </div>
+        <div class="row p-2">
+            <form method="post" class="row g-3" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="row">
+
+                    <div class="col-sm-12">
+                        <label for="inputFirstName" class="form-label">FIR Report</label>
+                        {{firForm.fir}}
+                    </div>
+
+                    <div class="col-sm-12">
+                        <label for="inputFirstName" class="form-label">Doc</label>
+                        {{firForm.document_feild}}
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="inputFirstName" class="form-label">Case Type</label>
+                        {{firForm.case_type}}
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="inputFirstName" class="form-label">Case Status</label>
+                        {{firForm.status}}
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="inputFirstName" class="form-label">Hearing Date</label>
+                        {{firForm.hearing_date}}
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="inputFirstName" class="form-label">Decision Date</label>
+                        {{firForm.decision_date}}
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="inputFirstName" class="form-label">Court No And Judge </label>
+                        {{firForm.court_no_and_judge}}
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="d-grid">
+                        <button type="submit"  name="fir-form" class="btn btn-danger"><i class='bx bx-note'></i>Create FIR</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        {% endif %}
+        {% endif %}
     </div>
 </div>
 <!--end page wrapper -->

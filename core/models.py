@@ -1,6 +1,8 @@
+from email.policy import default
 from operator import truediv
 from secrets import choice
 from tabnanny import verbose
+from turtle import mode
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from versatileimagefield.fields import VersatileImageField,PPOIField
 from django.db import models
@@ -28,9 +30,9 @@ class UserManager(BaseUserManager):
             return user
 
 
-    def create_superuser(self, email, password):
+    def create_superuser(self, username, password):
         """Create and Save a super User"""
-        user = self.model(email=email)
+        user = self.model(username=username)
         user.set_password(password)
         user.name="admin"
         user.save(using=self.db)
@@ -167,9 +169,22 @@ class complaint_updates(models.Model):
 
 
 class fir_details(models.Model):
+    CASE_CHOICE = (('OPEN','OPEN'),('PENDING','PENDING'),('FIR CREATED','FIR CREATED'),('COLSED','COLSED'))
+    STAUS_CHOICE = (('OPEN','OPEN'),('REJECTED','REJECTED'),('PENDING','PENDING'),('FIR CREATED','FIR CREATED'),('COLSED','COLSED'))
+
+    staff=models.OneToOneField(User,on_delete=models.PROTECT,blank=True,null=True)
     complaint = models.OneToOneField(complaints,on_delete=models.PROTECT)
-    fir_number = models.CharField(max_length=225,unique=True)
+    fir_number = models.CharField(max_length=225)
+    document_feild = models.FileField(upload_to="complaints/",blank=True,null=True)
     date = models.DateTimeField(auto_now=True)
+    fir=models.TextField(blank=True,null=True)
+    case_type=models.CharField(max_length=225,choices=CASE_CHOICE,blank=True,null=True)
+    hearing_date = models.DateField(blank=True,null=True)
+    decision_date = models.DateField(blank=True,null=True)
+    court_no_and_judge=models.CharField(max_length=225,blank=True,null=True)
+    status=models.CharField(max_length=225,choices=STAUS_CHOICE,default='OPEN')
+
+
 
     def __str__(self):
         return str(self.complaint)
@@ -182,7 +197,8 @@ class fir_status_report(models.Model):
     fir = models.ForeignKey(fir_details,on_delete=models.PROTECT)
     date = models.DateTimeField(auto_now=True)
     current_status =models.CharField(max_length=225)
- 
+    comment = models.CharField(max_length=225)
+    
 
     def __str__(self):
         return str(self.fir)

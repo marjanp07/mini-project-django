@@ -8,5 +8,5 @@ urlpatterns = [
     path('', home,name="policehome"),
     path('viewcomplaints/', viewcomplaints,name="viewcomplaints"),
     path('complaintdetails/<int:id>', complaintdetails,name="complaintdetails"),
-    path('firupdate/', firupdate,name="firupdate"),
+    path('firupdate/<int:id>', firupdate,name="firupdate"),
 ] 
