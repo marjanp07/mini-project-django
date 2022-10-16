@@ -25,7 +25,7 @@ def home(request):
     news_feed_list=[]
     user_details=None
 
-    if request.user.is_staff:
+    if request.user.is_staff  and police_staff.objects.filter(user=request.user).exist():
         user_details=police_staff.objects.get(user=request.user)
     else:
         person_details=peoples.objects.get(user=request.user)
@@ -85,7 +85,7 @@ def registeration(request):
 
 @login_required(login_url="userapp:login")
 def mycomplaints(request):
-    if request.user.is_staff:
+    if request.user.is_staff  and police_staff.objects.filter(user=request.user).exist():
         user_details=police_staff.objects.get(user=request.user)
     else:
         user_details=peoples.objects.get(user=request.user)
@@ -100,7 +100,7 @@ def mycomplaints(request):
 
 @login_required(login_url="userapp:login")
 def addcomplaints(request):
-    if request.user.is_staff:
+    if request.user.is_staff  and police_staff.objects.filter(user=request.user).exist():
         user_details=police_staff.objects.get(user=request.user)
     else:
         user_details=peoples.objects.get(user=request.user)
@@ -125,7 +125,7 @@ def casestatustimeline(request,id):
     complaint = complaints.objects.get(id=id)
     cstatuses = complaint_updates.objects.filter(complaint=complaint).order_by('date')
     print(request.user)
-    if request.user.is_staff:
+    if request.user.is_staff  and police_staff.objects.filter(user=request.user).exist():
         statusform=police_status_form
     else:
         statusform=user_statusform
@@ -142,7 +142,7 @@ def casestatustimeline(request,id):
             cstatus.status='OPEN'
             cstatus.save()
 
-    if request.user.is_staff:
+    if request.user.is_staff  and police_staff.objects.filter(user=request.user).exist():
         user_details=police_staff.objects.get(user=request.user)
     else:
         user_details=peoples.objects.get(user=request.user)
@@ -160,7 +160,7 @@ def casestatustimeline(request,id):
 @login_required(login_url="userapp:login")
 def firstatuscheck(request):
 
-    if request.user.is_staff:
+    if request.user.is_staff  and police_staff.objects.filter(user=request.user).exist():
         user_details=police_staff.objects.get(user=request.user)
     else:
         user_details=peoples.objects.get(user=request.user)
@@ -173,7 +173,7 @@ def firstatuscheck(request):
 
 @login_required(login_url="userapp:login")
 def viewfir(request):
-    if request.user.is_staff:
+    if request.user.is_staff  and police_staff.objects.filter(user=request.user).exist():
         user_details=police_staff.objects.get(user=request.user)
     else:
         user_details=peoples.objects.get(user=request.user)
