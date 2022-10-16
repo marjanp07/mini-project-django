@@ -56,7 +56,29 @@
 					</a>
 				</li>
 				{% if user.is_staff %}
-					<!-- police Controls -->
+				<li>
+					<a href="javascript:;" class="has-arrow">
+						<div class="parent-icon"><i class='bx bxs-note'></i>
+						</div>
+						<div class="menu-title">Complaints</div>
+					</a>
+					<ul>
+						<li> <a href="{% url 'policeapp:viewcomplaints' %}"><i class="bx bx-right-arrow-alt"></i>Complaints</a>
+						</li>
+					</ul>
+				</li>
+				
+				<li>
+					<a href="javascript:;" class="has-arrow">
+						<div class="parent-icon"><i class='bx bx-search'></i>
+						</div>
+						<div class="menu-title">FIRs</div>
+					</a>
+					<ul>
+						<li> <a href="ecommerce-products-details.html"><i class="bx bx-right-arrow-alt"></i>FIRs</a>
+						</li>
+					</ul>
+				</li>
 				
 				{% else %}
 				<li>

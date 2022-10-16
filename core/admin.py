@@ -1,5 +1,6 @@
 from django.contrib import admin
-
+from django.contrib.auth.admin import UserAdmin
+from .models import *
 # Register your models here.
 from .models import *
 
@@ -8,8 +9,23 @@ class police_staff_inline(admin.TabularInline):
     model=police_staff
     extra=2
 
+class UserAdminDisplay(UserAdmin):
+    list_display=['username','is_staff']
+    ordering=['username']
+    fieldsets = (
+        (None, {'fields': ('username', 'password')}),
+        (('Permissions'), {
+            'fields': ('is_active', 'is_staff', 'is_superuser', 'groups'),
+        }),
+    )
 
-admin.site.register(User)
+    def save_model(self, request, obj, form, change):
+        if request.user.is_superuser:
+            user = User.objects.create_staff_user(obj.username,form.cleaned_data['password1'])
+            print(user)
+            print("Staff Saved")
+
+admin.site.register(User,UserAdminDisplay)
 admin.site.register(states)
 
 @admin.register(district)

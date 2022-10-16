@@ -7,6 +7,6 @@ app_name="policeapp"
 urlpatterns = [
     path('', home,name="policehome"),
     path('viewcomplaints/', viewcomplaints,name="viewcomplaints"),
-    path('complaintdetails/', complaintdetails,name="complaintdetails"),
+    path('complaintdetails/<int:id>', complaintdetails,name="complaintdetails"),
     path('firupdate/', firupdate,name="firupdate"),
 ] 

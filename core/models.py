@@ -7,15 +7,26 @@ from django.db import models
 
 # Create your models here.
 class UserManager(BaseUserManager):
-    def create_user(self, email, password=None, **extra_fields):
+    def create_user(self, username, password=None, **extra_fields):
         """Create Save a User"""
-        if not email:
+        if not username:
             raise ValueError('User must have a Email')
-        user = self.model(email=email, **extra_fields)
+        user = self.model(username=username, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         if user:
             return user
+    def create_staff_user(self, username, password=None, **extra_fields):
+        """Create Save a User"""
+        if not username:
+            raise ValueError('User must have a Email')
+        user = self.model(username=username, **extra_fields)
+        user.set_password(password)
+        user.is_staff=True
+        user.save(using=self._db)
+        if user:
+            return user
+
 
     def create_superuser(self, email, password):
         """Create and Save a super User"""
@@ -32,16 +43,16 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     """"Custom Model"""
-    email = models.EmailField(max_length=225, unique=True)
+    username = models.EmailField(max_length=225, unique=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
     objects = UserManager()
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'username'
 
     def __str__(self):
-        return str(self.email)
+        return str(self.username)
 
     class Meta:
         verbose_name_plural="1.App Users"
