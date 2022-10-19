@@ -172,7 +172,7 @@ class fir_details(models.Model):
     CASE_CHOICE = (('OPEN','OPEN'),('PENDING','PENDING'),('FIR CREATED','FIR CREATED'),('COLSED','COLSED'))
     STAUS_CHOICE = (('OPEN','OPEN'),('REJECTED','REJECTED'),('PENDING','PENDING'),('FIR CREATED','FIR CREATED'),('COLSED','COLSED'))
 
-    staff=models.OneToOneField(User,on_delete=models.PROTECT,blank=True,null=True)
+    staff=models.ForeignKey(User,on_delete=models.PROTECT,blank=True,null=True)
     complaint = models.OneToOneField(complaints,on_delete=models.PROTECT)
     fir_number = models.CharField(max_length=225)
     document_feild = models.FileField(upload_to="complaints/",blank=True,null=True)
@@ -198,6 +198,8 @@ class fir_status_report(models.Model):
     date = models.DateTimeField(auto_now=True)
     current_status =models.CharField(max_length=225)
     comment = models.CharField(max_length=225)
+    staff=models.ForeignKey(User,on_delete=models.PROTECT,blank=True,null=True)
+
     
 
     def __str__(self):

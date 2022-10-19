@@ -100,3 +100,19 @@ class FirrejectForm(forms.ModelForm):
         widgets = {
             'status': Select(attrs={'class': 'form-select', 'placeholder': 'example@user.com','id':'state','name':'state'}),
         }
+
+
+class FirUpdateForm(forms.ModelForm):
+    class Meta:
+        model = fir_details
+        fields = ('hearing_date','decision_date','court_no_and_judge','status')
+        widgets = {
+            'document_feild': FileInput(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'photo','name':'photo'}),
+            'fir': Textarea(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'post','name':'post'}),
+            'case_type': Select(attrs={'class': 'form-select', 'placeholder': 'example@user.com','id':'state','name':'state'}),
+            'status': Select(attrs={'class': 'form-select', 'placeholder': 'example@user.com','id':'state','name':'state'}),
+            'hearing_date': DateInput(attrs={'class': 'form-control', 'type':'date','placeholder': 'example@user.com','id':'state','name':'state'}),
+            'decision_date': DateInput(attrs={'class': 'form-control','type':'date', 'placeholder': 'example@user.com','id':'state','name':'state'}),
+            'court_no_and_judge': TextInput(attrs={'class': 'form-control', 'placeholder': 'example@user.com','id':'place','name':'place'}),
+
+        }

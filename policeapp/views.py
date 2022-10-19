@@ -4,6 +4,7 @@ from .forms import *
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+@login_required(login_url="userapp:login")
 def home(request):
     news_feed_list=[]
     user_details=None
@@ -21,7 +22,7 @@ def home(request):
     
         return render(request,'people/home.html',context)
     return redirect('userapp:userhome')
-
+@login_required(login_url="userapp:login")
 def viewcomplaints(request):
     if request.user.is_staff  and police_staff.objects.filter(user=request.user).exists():
         user_details=police_staff.objects.get(user=request.user)
@@ -34,7 +35,7 @@ def viewcomplaints(request):
         return render(request,'people/mycomplaints.html',context)
     else:
         return redirect('userapp:mycomplaints')
-
+@login_required(login_url="userapp:login")
 def complaintdetails(request,id):
     police_status_form= policecomplaintupdateForm(request.POST,request.FILES)
     user_statusform = complaintupdateForm(request.POST,request.FILES)
@@ -54,7 +55,7 @@ def complaintdetails(request,id):
     else:
         statusform=user_statusform
     if request.method =='POST':
-        if firRejectForm.is_valid():
+        if firRejectForm.is_valid() and not statusform.is_valid() and not firForm.is_valid():
             fir = firRejectForm.save(commit=False)
             if fir_details.objects.filter().exists():
                 newdid= fir_details.objects.filter().last().id+1
@@ -77,7 +78,7 @@ def complaintdetails(request,id):
             cstatus.complaint=complaint
             cstatus.status='OPEN'
             cstatus.save()
-        if firForm.is_valid():
+        if firForm.is_valid() and not statusform.is_valid():
             fir = firForm.save(commit=False)
             fir.staff = request.user
             fir.complaint = complaint
@@ -107,14 +108,57 @@ def complaintdetails(request,id):
 @login_required(login_url="userapp:login")
 def firupdate(request,id):
     fir_detail=fir_details.objects.get(id=id)
+    firupdateRecords=fir_status_report.objects.filter(fir=fir_detail)
     if request.user.is_staff  and police_staff.objects.filter(user=request.user).exists():
         user_details=police_staff.objects.get(user=request.user)
     else:
         user_details=peoples.objects.get(user=request.user)
-    
+    firForm = FirUpdateForm(request.POST,request.FILES,instance=fir_detail)
+    if request.method =='POST':
+        old_fir_detail=fir_details.objects.get(id=id)
+        if firForm.is_valid():
+            newfirdetails=firForm.save()
+            comment=''
+            if newfirdetails.hearing_date != old_fir_detail.hearing_date:
+                comment='Hearing Date Updated :'+str(newfirdetails.hearing_date)
+            elif newfirdetails.decision_date != old_fir_detail.decision_date:
+                comment='Decision Date Updated :'+str(newfirdetails.decision_date)
+            elif newfirdetails.court_no_and_judge != old_fir_detail.court_no_and_judge:
+                comment='Court No Updated :'+str(newfirdetails.court_no_and_judge)
+            elif newfirdetails.status != old_fir_detail.status:
+                comment='Status Updated to :'+str(newfirdetails.status)
+            firupdateRecord = fir_status_report()
+            firupdateRecord.fir=fir_detail
+            firupdateRecord.comment=comment
+            firupdateRecord.staff=request.user
+            firupdateRecord.current_status=newfirdetails.status
+
+            firupdateRecord.save()
+
+
+
+
+
     context={
         "user_details":user_details,
-        "fir_detail":fir_detail
+        "fir_detail":fir_detail,
+        "firForm":firForm,
+        "firupdateRecords":firupdateRecords,
     }
     return render(request,'people/viewfir.html',context)
 
+
+
+@login_required(login_url="userapp:login")
+def listfirs(request):
+    if request.user.is_staff  and police_staff.objects.filter(user=request.user).exists():
+        user_details=police_staff.objects.get(user=request.user)
+        police_station=user_details.police_station
+        fir_detailses = fir_details.objects.filter(complaint__police_station=police_station)
+        context={
+        'fir_detailses':fir_detailses,
+        "user_details":user_details
+        }
+        return render(request,'people/myfir.html',context)
+    else:
+        return redirect('userapp:myfirs')

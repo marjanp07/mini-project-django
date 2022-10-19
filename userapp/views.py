@@ -187,6 +187,20 @@ def viewfir(request):
     return render(request,'people/viewfir.html',context) 
 
 
+@login_required(login_url="userapp:login")
+def viewfirs(request):
+    if request.user  and peoples.objects.filter(user=request.user).exists():
+        user_details=peoples.objects.get(user=request.user)
+        police_station=user_details.police_station
+        fir_detailses = fir_details.objects.filter(complaint__user=request.user)
+        context={
+        'fir_detailses':fir_detailses,
+        "user_details":user_details
+        }
+        return render(request,'people/viewfir.html',context)
+    else:
+        return redirect('policeapp:listfir')
+
                    
 
 def logout_view(request):
@@ -195,5 +209,16 @@ def logout_view(request):
 
 
 
-
+@login_required(login_url="userapp:login")
+def myfirs(request):
+    if request.user  and peoples.objects.filter(user=request.user).exists():
+        user_details=peoples.objects.get(user=request.user)
+        fir_detailses = fir_details.objects.filter(complaint__user=request.user)
+        context={
+        'fir_detailses':fir_detailses,
+        "user_details":user_details
+        }
+        return render(request,'people/myfir.html',context)
+    else:
+        return redirect('polceapp:listfirs')
     
