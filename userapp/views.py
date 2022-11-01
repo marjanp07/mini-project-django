@@ -174,17 +174,6 @@ def firstatuscheck(request):
     return render(request,'people/firstatuscheck.html',context)
 
 
-@login_required(login_url="userapp:login")
-def viewfir(request):
-    if request.user.is_staff  and police_staff.objects.filter(user=request.user).exists():
-        user_details=police_staff.objects.get(user=request.user)
-    else:
-        user_details=peoples.objects.get(user=request.user)
-    
-    context={
-        "user_details":user_details
-    }
-    return render(request,'people/viewfir.html',context) 
 
 
 @login_required(login_url="userapp:login")
@@ -221,4 +210,23 @@ def myfirs(request):
         return render(request,'people/myfir.html',context)
     else:
         return redirect('polceapp:listfirs')
+
+
+@login_required(login_url="userapp:login")
+def viewfir(request,id):
+    fir_detail=fir_details.objects.get(id=id)
+    firupdateRecords=fir_status_report.objects.filter(fir=fir_detail)
+    if request.user.is_staff  and police_staff.objects.filter(user=request.user).exists():
+        user_details=police_staff.objects.get(user=request.user)
+    else:
+        user_details=peoples.objects.get(user=request.user)
+
+    context={
+        "user_details":user_details,
+        "fir_detail":fir_detail,
+        "firForm":None,
+        "firupdateRecords":firupdateRecords,
+    }
+    return render(request,'people/viewfir.html',context)
+
     

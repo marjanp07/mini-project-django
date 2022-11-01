@@ -122,6 +122,7 @@
             </div>
         </div>
         {% endif %}
+        {% if request.user.is_staff %}
         <div class="row">
                     
             <div class="row p-2">
@@ -158,6 +159,7 @@
 
 
         </div>
+        {% endif %}
 
         </table>
     </div>

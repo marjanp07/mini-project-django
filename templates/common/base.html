@@ -49,7 +49,7 @@
 			<ul class="metismenu" id="menu">
 				<li class="menu-label">UI Elements</li>
 				<li>
-					<a href="widgets.html">
+					<a href="{% url 'userapp:userhome' %}">
 						<div class="parent-icon"><i class='bx bx-cookie'></i>
 						</div>
 						<div class="menu-title">Widgets</div>
@@ -75,7 +75,7 @@
 						<div class="menu-title">FIRs</div>
 					</a>
 					<ul>
-						<li> <a href="ecommerce-products-details.html"><i class="bx bx-right-arrow-alt"></i>FIRs</a>
+						<li> <a href="{% url 'policeapp:listfirs' %}"><i class="bx bx-right-arrow-alt"></i>FIRs</a>
 						</li>
 					</ul>
 				</li>
@@ -102,7 +102,7 @@
 						<div class="menu-title">FIRs</div>
 					</a>
 					<ul>
-						<li> <a href="ecommerce-products-details.html"><i class="bx bx-right-arrow-alt"></i>Your FIRs</a>
+						<li> <a href="{% url 'userapp:myfirs' %}"><i class="bx bx-right-arrow-alt"></i>Your FIRs</a>
 						</li>
 					</ul>
 				</li>

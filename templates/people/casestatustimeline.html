@@ -174,7 +174,7 @@
 
 
         {% if fir_detail %}
-        <h1>Go To FIR</h1>
+        <a href="{% url 'policeapp:firupdate' fir_detail.id %}" class="btn btn-primary">Go to FIR</a>
         {% else %}
         {% if request.user.is_staff %}
         <div class="row p-2">

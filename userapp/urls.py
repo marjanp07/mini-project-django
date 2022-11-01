@@ -14,7 +14,7 @@ urlpatterns = [
     path('addcomplaints/', addcomplaints,name="addcomplaints"),
     path('casestatustimeline/<int:id>', casestatustimeline,name="casestatustimeline"),
     path('firstatuscheck/', firstatuscheck,name="firstatuscheck"),
-    path('viewfir/', viewfir,name="viewfir"),
+    path('viewfir/<int:id>', viewfir,name="viewfir"),
     path('myfirs/', myfirs,name="myfirs"),
 
 ] 
