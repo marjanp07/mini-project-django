@@ -54,31 +54,39 @@ def complaintdetails(request,id):
         statusform=police_status_form
     else:
         statusform=user_statusform
+
+    if statusform.is_valid():
+        print("Status form Valid")
     if request.method =='POST':
         if firRejectForm.is_valid() and not statusform.is_valid() and not firForm.is_valid():
+            print("Reject")
             fir = firRejectForm.save(commit=False)
             if fir_details.objects.filter().exists():
                 newdid= fir_details.objects.filter().last().id+1
             else:
                 newdid=1
             fir_id = 'FIR00'+str(newdid)
+            fir.fir_number ='NA'
             fir.status='REJECTED'
             fir.staff = request.user
             fir.complaint = complaint
             fir.save()
 
         if request.user.is_staff and statusform.is_valid():
+             print("point 1")
              cstatus=statusform.save(commit=False)
              cstatus.commented_by=request.user
              cstatus.complaint=complaint
              cstatus.save()
         elif statusform.is_valid():
+            print("point 2")
             cstatus=statusform.save(commit=False)
             cstatus.commented_by=request.user
             cstatus.complaint=complaint
             cstatus.status='OPEN'
             cstatus.save()
         if firForm.is_valid() and not statusform.is_valid():
+            print("point 3")
             fir = firForm.save(commit=False)
             fir.staff = request.user
             fir.complaint = complaint
@@ -87,7 +95,6 @@ def complaintdetails(request,id):
             else:
                 newdid=1
             fir_id = 'FIR00'+str(newdid)
-            fir.fir_number = fir_id
             fir.fir_number = fir_id
 
             fir.save()

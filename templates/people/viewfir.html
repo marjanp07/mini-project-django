@@ -33,7 +33,9 @@
         <h6 class="mb-0 text-uppercase">FIR Details</h6>
         <hr />
         <div class="card" style="width: 100%;">
+            {% if fir_detail.document_feild %}
             <iframe src="/media/{{fir_detail.document_feild}}" width="100%" height="300px"></iframe>
+            {% endif %}
             <div class="card-body">
                 <h5 class="card-title">{{fir_detail.fir_number}}</h5>
                 <hr/>
@@ -123,6 +125,8 @@
         </div>
         {% endif %}
         {% if request.user.is_staff %}
+
+        {% if fir_detail.document_feild %}
         <div class="row">
                     
             <div class="row p-2">
@@ -159,6 +163,7 @@
 
 
         </div>
+        {% endif %}
         {% endif %}
 
         </table>

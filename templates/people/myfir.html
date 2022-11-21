@@ -55,7 +55,7 @@
                 <tr>
                   <th scope="row"><a href="{% url 'policeapp:firupdate' fir.id %}">{{fir.fir_number}}</a></th>
                   <td>{{fir.date}}</td>
-                  <td>{{fir.complaint.user}}</td>
+                  <td><a href="{% url 'userapp:profile' {{fir.complaint.user.id}} %}">{{fir.complaint.user}}</a></td>
                   <td>{{fir.complaint.police_station}}</td>
                   <td>{{fir.status}}</td>
                 </tr>

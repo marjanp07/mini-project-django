@@ -71,6 +71,14 @@
 												<label for="inputEmailAddress" class="form-label">Email Address</label>
 												{{userform.username}}
 											</div>
+											{% if errormessage %}
+											<div class="row">
+												<div class="col-sm-9">
+													<label  for="UploadImage" class="form-labe text-danger text-center">{{errormessage}}</label>
+													
+												</div>
+											</div>
+											{% endif %}
 											<div class="col-12">
 												<label for="inputChoosePassword" class="form-label">Password</label>
 												<div class="input-group" id="show_hide_password">
@@ -82,6 +90,7 @@
 												<label for="inputFirstName" class="form-label">Name</label>
 												{{personform.person_name}}
 											</div>
+											
 											
 
 											<div class="col-sm-6">
@@ -114,6 +123,16 @@
 												<label for="inputFirstName" class="form-label">Phone number</label>
 												{{personform.phone_number}}
 											</div>
+											
+											{% if errormessage %}
+											<div class="row">
+												<div class="col-sm-6"></div>
+												<div class="col-sm-6">
+													<label  for="UploadImage" class="form-labe text-danger text-center">{{errormessage}}</label>
+													
+												</div>
+											</div>
+											{% endif %}
 											
 											<div class="col-sm-6">
 												<label for="inputFirstName" class="form-label">Police station range</label>

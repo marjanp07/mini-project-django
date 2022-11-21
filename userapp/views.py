@@ -82,7 +82,7 @@ def registeration(request):
             print(userform.errors)
             print(personform.errors)
             context["errormessage"]= "User Already Registered"
-   
+            return redirect("userapp:login")
     return render(request,'people/registeration.html',context)
 
 @login_required(login_url="userapp:login")
@@ -229,4 +229,35 @@ def viewfir(request,id):
     }
     return render(request,'people/viewfir.html',context)
 
-    
+@login_required(login_url="userapp:login")
+def myprofile(request):
+    if request.user.is_staff  and police_staff.objects.filter(user=request.user).exists():
+        user_details=police_staff.objects.get(user=request.user)
+    else:
+        user_details=peoples.objects.get(user=request.user)
+        selected_user=peoples.objects.get(user=request.user)
+    context={
+        "user_details":user_details,
+        "selected_user":user_details,
+    }
+    return render(request,'people/profile.html',context)
+ 
+
+@login_required(login_url="userapp:login")
+def profile(request,id):
+    if request.user.is_staff  and police_staff.objects.filter(user=request.user).exists():
+        user_details=police_staff.objects.get(user=request.user)
+        selected_user = peoples.objects.get(user__id=id)
+    else:
+        user_details=peoples.objects.get(user=request.user)
+        selected_user=peoples.objects.get(user=request.user)
+        selected_user = peoples.objects.get(user__id=id)
+
+    context={
+        "user_details":user_details,
+        "selected_user":selected_user,
+    }
+    return render(request,'people/profile.html',context)
+ 
+
+

@@ -143,6 +143,11 @@ class complaints(models.Model):
 
     def get_latest_update(self):
         return complaint_updates.objects.filter(complaint=self).last()
+
+    def get_fir_or_false(self):
+        if fir_details.objects.filter(complaint=self).exists():
+            return fir_details.objects.get(complaint=self)
+        return False
     def __str__(self):
         cid='100'+str(self.id)
         return str(cid)
@@ -177,7 +182,7 @@ class fir_details(models.Model):
     fir_number = models.CharField(max_length=225)
     document_feild = models.FileField(upload_to="complaints/",blank=True,null=True)
     date = models.DateTimeField(auto_now=True)
-    fir=models.TextField(blank=True,null=True)
+    fir=models.TextField()
     case_type=models.CharField(max_length=225,choices=CASE_CHOICE,blank=True,null=True)
     hearing_date = models.DateField(blank=True,null=True)
     decision_date = models.DateField(blank=True,null=True)

@@ -47,6 +47,7 @@
                   <th scope="col">Date</th>
                   <th scope="col">Police Station</th>
                   <th scope="col">Status</th>
+                  <th scope="col">FIR</th>
                 </tr>
               </thead>
               <tbody>
@@ -69,6 +70,16 @@
                   <td><a href="{% url 'userapp:casestatustimeline' complaint.id %}">Open</a></td>
                   {% endif %}
                   {% endif %}
+                  <td>{% if complaint.get_fir_or_false %}
+                    {% if request.user.is_staff %}
+                    <a href="{% url 'userapp:viewfir' complaint.get_fir_or_false.id %}">{{complaint.get_fir_or_false.fir_number}}</a>
+                    {% else %}
+                    <a href="{% url 'policeapp:firupdate' complaint.get_fir_or_false.id %}">{{complaint.get_fir_or_false.fir_number}}</a>
+                    {% endif %}
+                    {% else %}
+                    NOT CREATED
+                    {% endif %}
+                  </td>
                   
                 </tr>
                 {% endfor %}

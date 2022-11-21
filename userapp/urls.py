@@ -1,5 +1,5 @@
 
-from .views import mycomplaints,myfirs,logout_view,index, home,login,registeration,addcomplaints,casestatustimeline,firstatuscheck,viewfir
+from .views import profile,myprofile,mycomplaints,myfirs,logout_view,index, home,login,registeration,addcomplaints,casestatustimeline,firstatuscheck,viewfir
 from django.urls import path
 
 app_name="userapp"
@@ -16,5 +16,7 @@ urlpatterns = [
     path('firstatuscheck/', firstatuscheck,name="firstatuscheck"),
     path('viewfir/<int:id>', viewfir,name="viewfir"),
     path('myfirs/', myfirs,name="myfirs"),
+    path('myprofile/', myprofile,name="myprofile"),
+    path('profile/<int:id>', profile,name="profile"),
 
 ] 
