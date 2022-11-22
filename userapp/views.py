@@ -245,13 +245,13 @@ def myprofile(request):
  
 
 @login_required(login_url="userapp:login")
-def profile(request,email):
+def profile(request,id):
     if request.user.is_staff  and police_staff.objects.filter(user=request.user).exists():
         user_details=police_staff.objects.get(user=request.user)
-        selected_user = peoples.objects.get(user__username=email)
+        selected_user = peoples.objects.get(user__id=id)
     else:
         user_details=peoples.objects.get(user=request.user)
-        selected_user = peoples.objects.get(user__username=email)
+        selected_user = peoples.objects.get(user__id=id)
 
     context={
         "user_details":user_details,

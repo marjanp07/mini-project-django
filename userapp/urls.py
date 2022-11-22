@@ -17,6 +17,6 @@ urlpatterns = [
     path('viewfir/<int:id>', viewfir,name="viewfir"),
     path('myfirs/', myfirs,name="myfirs"),
     path('myprofile/', myprofile,name="myprofile"),
-    path('profile/<str:email>', profile,name="profile"),
+    path('profile/<int:id>', profile,name="profile"),
 
 ] 
