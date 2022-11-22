@@ -78,11 +78,12 @@ def registeration(request):
             person=personform.save(commit=False)
             person.user=user
             person.save()
+            return redirect("userapp:login")
         else :
             print(userform.errors)
             print(personform.errors)
             context["errormessage"]= "User Already Registered"
-            return redirect("userapp:login")
+            
     return render(request,'people/registeration.html',context)
 
 @login_required(login_url="userapp:login")
